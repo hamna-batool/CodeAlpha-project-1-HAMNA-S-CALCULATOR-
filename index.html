@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamna's Calculator 💖</title>
+
+<!-- Fonts (fontsource CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/quicksand@latest/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/quicksand@latest/500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/quicksand@latest/600.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/quicksand@latest/700.css">
+
+<!-- My styles -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Decorative floating hearts & blossoms -->
+<div class="floaties" aria-hidden="true">
+  <span style="top:8%;  left:6%;  font-size:2rem;   color:#FF6F91;">♥</span>
+  <span style="top:16%; right:9%; font-size:1.4rem; color:#D6336C; animation-delay:-3s;">❀</span>
+  <span style="bottom:14%; left:10%; font-size:1.6rem; color:#FFB3C6; animation-delay:-5s;">♥</span>
+  <span style="bottom:7%; right:14%; font-size:2.4rem; color:#FF6F91; animation-delay:-1.5s;">❀</span>
+  <span style="top:46%; left:3%;  font-size:1.1rem; color:#D6336C; animation-delay:-7s;">♥</span>
+  <span style="top:38%; right:4%; font-size:1.3rem; color:#FFB3C6; animation-delay:-4s;">♥</span>
+</div>
+
+<main class="calculator" aria-label="Hamna's pink calculator">
+
+  <!-- Header -->
+  <header class="calc-header">
+    <div class="brand">
+      <span class="blossom">♥</span>
+      <span>Hamna's&nbsp;Calc<small>sweet little math</small></span>
+    </div>
+    <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+  </header>
+
+  <!-- Display -->
+  <section class="display" id="display" aria-live="polite">
+    <div class="expression" id="expression">&nbsp;</div>
+    <div class="current" id="current">0</div>
+    <div class="preview" id="preview"></div>
+  </section>
+
+  <!-- Keypad -->
+  <section class="keys" id="keys" aria-label="Calculator keys">
+    <button class="key fn  area-c"    data-action="clear" aria-label="Clear">C</button>
+    <button class="key fn  area-del"  data-action="back"  aria-label="Backspace">⌫</button>
+    <button class="key op  area-divi" data-action="op" data-op="/" aria-label="Divide">÷</button>
+    <button class="key op  area-mul"  data-action="op" data-op="*" aria-label="Multiply">×</button>
+
+    <button class="key num area-d7" data-action="digit" data-digit="7">7</button>
+    <button class="key num area-d8" data-action="digit" data-digit="8">8</button>
+    <button class="key num area-d9" data-action="digit" data-digit="9">9</button>
+    <button class="key op  area-sub" data-action="op" data-op="-" aria-label="Subtract">−</button>
+
+    <button class="key num area-d4" data-action="digit" data-digit="4">4</button>
+    <button class="key num area-d5" data-action="digit" data-digit="5">5</button>
+    <button class="key num area-d6" data-action="digit" data-digit="6">6</button>
+    <button class="key op  area-add" data-action="op" data-op="+" aria-label="Add">+</button>
+
+    <button class="key num area-d1" data-action="digit" data-digit="1">1</button>
+    <button class="key num area-d2" data-action="digit" data-digit="2">2</button>
+    <button class="key num area-d3" data-action="digit" data-digit="3">3</button>
+    <button class="key eq  area-eq" data-action="equals" aria-label="Equals">=</button>
+
+    <button class="key num area-d0"  data-action="digit" data-digit="0">0</button>
+    <button class="key num area-dot" data-action="dot" aria-label="Decimal point">.</button>
+  </section>
+
+  <p class="hint">
+    <kbd>0–9</kbd> digits · <kbd>+ − × ÷</kbd> ops · <kbd>Enter</kbd> equals ·
+    <kbd>⌫</kbd> delete · <kbd>Esc</kbd> clear
+    <span class="desktop-only">&nbsp;— keyboard ready ♡</span>
+  </p>
+</main>
+
+<!-- My logic -->
+<script src="script.js"></script>
+</body>
+</html>
+
+
+ 

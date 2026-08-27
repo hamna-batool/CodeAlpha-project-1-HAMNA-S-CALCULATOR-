@@ -1,0 +1,334 @@
+/* style.css */
+/* ============================================================
+   HAMNA'S CALCULATOR - style.css
+   ============================================================
+   PASTE GUIDE (VS Code):
+   1) Open style.css in VS Code.
+   2) Press Ctrl+A to select ALL old text, then Ctrl+V so this
+      whole code REPLACES everything. No old code should remain.
+   3) Do NOT paste the markdown fences: ```css and ```
+      Copy ONLY the CSS between them.
+   4) Save with Ctrl+S.
+
+   CHECK IF IT DOES NOT WORK:
+   - Bottom-right of VS Code must say "CSS" and "UTF-8".
+     If it says "Plain Text", click it -> choose "CSS".
+   - File name must be exactly:  style.css  (small letters)
+     and it must be in the SAME folder as index.html.
+   - index.html must have this line inside <head>:
+         <link rel="stylesheet" href="style.css">
+   - After saving, hard-refresh the page: Ctrl+Shift+R
+   ============================================================ */
+
+/* ============================================================
+   Pinkish Calculator Theme
+   Palette:
+   bg          #FFE4EC   (soft blush pink)
+   numbers     #FFFFFF   (text #4A2C3B)
+   operators   #FF6F91   (text #FFFFFF)
+   equals      #D6336C   (text #FFFFFF)
+   functions   #FFB3C6   (text #4A2C3B)
+   display bg  #FFF0F5   display text #4A2C3B
+   ============================================================ */
+:root{
+  --bg:        #FFE4EC;
+  --num:       #FFFFFF;
+  --op:        #FF6F91;
+  --eq:        #D6336C;
+  --fn:        #FFB3C6;
+  --disp-bg:   #FFF0F5;
+  --ink:       #4A2C3B;
+  --ink-soft:  #B98A9C;
+  --glow:      rgba(214, 51, 108, .28);
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html,body{ height:100%; }
+
+body{
+  font-family:'Quicksand', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100dvh;
+  padding:24px 14px;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ---------- Soft background blobs ---------- */
+body::before, body::after{
+  content:"";
+  position:fixed;
+  border-radius:50%;
+  filter:blur(90px);
+  z-index:0;
+  pointer-events:none;
+}
+body::before{
+  width:46vmax; height:46vmax;
+  background:#FFC9DA;
+  top:-14vmax; left:-12vmax;
+  opacity:.75;
+}
+body::after{
+  width:42vmax; height:42vmax;
+  background:#FFDDE8;
+  bottom:-16vmax; right:-10vmax;
+  opacity:.9;
+}
+
+/* ---------- Floating hearts & blossoms ---------- */
+.floaties{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.floaties span{
+  position:absolute;
+  display:block;
+  opacity:.4;
+  animation:drift 9s ease-in-out infinite alternate;
+  will-change:transform;
+}
+@keyframes drift{
+  from{ transform:translateY(0) rotate(-8deg); }
+  to  { transform:translateY(-26px) rotate(10deg); }
+}
+
+/* ---------- Calculator card ---------- */
+.calculator{
+  position:relative;
+  z-index:1;
+  width:min(400px, 100%);
+  background:linear-gradient(180deg, #FFFFFF 0%, #FFF6FA 100%);
+  border-radius:34px;
+  padding:22px 22px 18px;
+  box-shadow:
+    0 30px 60px -18px var(--glow),
+    0 6px 0 -2px #FFD3E1,
+    inset 0 1px 0 #FFFFFF;
+  animation:cardIn .55s cubic-bezier(.22,1.2,.36,1) both;
+}
+@keyframes cardIn{
+  from{ opacity:0; transform:translateY(22px) scale(.96); }
+  to  { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* Header */
+.calc-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:2px 6px 14px;
+}
+.brand{
+  display:flex; align-items:center; gap:9px;
+  font-weight:700; font-size:1.12rem; letter-spacing:.3px;
+}
+.brand .blossom{
+  width:30px; height:30px;
+  border-radius:10px;
+  background:linear-gradient(135deg, #FF6F91, #D6336C);
+  display:grid; place-items:center;
+  color:#fff; font-size:.95rem;
+  box-shadow:0 4px 10px -2px var(--glow);
+  animation:spinHeart 6s ease-in-out infinite;
+}
+@keyframes spinHeart{
+  0%,100%{ transform:rotate(-6deg) scale(1); }
+  50%    { transform:rotate(8deg)  scale(1.08); }
+}
+.brand small{
+  display:block;
+  font-size:.6rem; font-weight:600;
+  color:var(--ink-soft); letter-spacing:2.2px; text-transform:uppercase;
+}
+.dots{ display:flex; gap:6px; }
+.dots i{
+  width:9px; height:9px; border-radius:50%;
+  background:var(--fn);
+  animation:blink 2.4s ease-in-out infinite;
+}
+.dots i:nth-child(2){ background:var(--op);  animation-delay:.4s; }
+.dots i:nth-child(3){ background:var(--eq);  animation-delay:.8s; }
+@keyframes blink{ 0%,100%{ opacity:.45; transform:scale(.85);} 50%{ opacity:1; transform:scale(1);} }
+
+/* ---------- Display ---------- */
+.display{
+  background:var(--disp-bg);
+  border:1px solid #FFD6E3;
+  border-radius:22px;
+  padding:16px 18px 14px;
+  min-height:122px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:flex-end;
+  gap:3px;
+  text-align:right;
+  overflow:hidden;
+  box-shadow:inset 0 2px 8px rgba(214,51,108,.07);
+}
+.display.shake{ animation:shake .4s ease; }
+@keyframes shake{
+  0%,100%{ transform:translateX(0); }
+  20%{ transform:translateX(-7px); } 40%{ transform:translateX(6px); }
+  60%{ transform:translateX(-4px); } 80%{ transform:translateX(3px); }
+}
+.expression{
+  font-size:.92rem; font-weight:600;
+  color:#C88BA1;
+  letter-spacing:.6px;
+  min-height:1.25em;
+  max-width:100%;
+  word-break:break-all;
+}
+.current{
+  font-weight:700;
+  line-height:1.12;
+  color:var(--ink);
+  max-width:100%;
+  word-break:break-all;
+  font-size:clamp(2.1rem, 10vw, 3rem);
+  transition:color .2s ease;
+  font-variant-numeric:tabular-nums;
+}
+.current.size-sm{ font-size:clamp(1.65rem, 7.5vw, 2.3rem); }
+.current.size-xs{ font-size:clamp(1.25rem, 5.6vw, 1.8rem); }
+.current.pop{ animation:pop .3s cubic-bezier(.22,1.6,.36,1); }
+@keyframes pop{ 0%{ transform:scale(.92);} 55%{ transform:scale(1.05);} 100%{ transform:scale(1);} }
+.display.is-error .current{ color:var(--eq); }
+.preview{
+  font-size:.98rem; font-weight:700;
+  color:var(--op);
+  min-height:1.3em;
+  transition:opacity .15s ease;
+  max-width:100%;
+  word-break:break-all;
+}
+
+/* ---------- Keypad ---------- */
+.keys{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  grid-template-areas:
+    "c   del divi mul"
+    "d7  d8  d9   sub"
+    "d4  d5  d6   add"
+    "d1  d2  d3   eq"
+    "d0  d0  dot  eq";
+  gap:12px;
+}
+.key{
+  border:none;
+  cursor:pointer;
+  border-radius:19px;
+  height:clamp(56px, 13.5vw, 70px);
+  font-family:inherit;
+  font-size:clamp(1.2rem, 5vw, 1.42rem);
+  font-weight:700;
+  display:grid;
+  place-items:center;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .09s ease, box-shadow .2s ease,
+             background-color .2s ease, filter .2s ease;
+}
+.key:hover{
+  transform:translateY(-2.5px);
+  box-shadow:0 9px 18px -6px var(--glow);
+  filter:brightness(1.04);
+}
+.key:active, .key.pressed{
+  transform:translateY(1.5px) scale(.94);
+  box-shadow:0 1px 3px -2px var(--glow);
+  filter:brightness(.97);
+  transition-duration:.05s;
+}
+.key:focus-visible{
+  outline:3px solid var(--eq);
+  outline-offset:2px;
+}
+
+/* Button variants */
+.key.num{
+  background:var(--num);
+  color:var(--ink);
+  box-shadow:0 3px 0 #F5D9E3, 0 5px 12px -6px rgba(74,44,59,.18);
+}
+.key.op{
+  background:var(--op);
+  color:#FFFFFF;
+  font-size:clamp(1.35rem, 5.4vw, 1.55rem);
+  box-shadow:0 3px 0 #E05578, 0 6px 14px -6px var(--glow);
+}
+.key.op:hover{ background:#FF7E9C; }
+.key.op.active{
+  background:var(--eq);
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.55),
+             0 0 22px -2px var(--glow),
+             0 3px 0 #B1285A;
+  transform:translateY(1px);
+  animation:activePulse 1.4s ease-in-out infinite;
+}
+@keyframes activePulse{
+  0%,100%{ box-shadow:inset 0 0 0 3px rgba(255,255,255,.55), 0 0 14px -3px var(--glow), 0 3px 0 #B1285A; }
+  50%    { box-shadow:inset 0 0 0 3px rgba(255,255,255,.75), 0 0 26px -2px var(--glow), 0 3px 0 #B1285A; }
+}
+.key.fn{
+  background:var(--fn);
+  color:var(--ink);
+  box-shadow:0 3px 0 #F097B0, 0 5px 12px -6px var(--glow);
+}
+.key.fn:hover{ background:#FFC1D2; }
+.key.eq{
+  background:linear-gradient(160deg, #E2487F, var(--eq) 55%, #B1285A);
+  color:#FFFFFF;
+  font-size:clamp(1.6rem, 6.4vw, 1.9rem);
+  box-shadow:0 4px 0 #9E2150, 0 12px 22px -6px var(--glow);
+}
+.key.eq:hover{ filter:brightness(1.08); }
+
+/* Grid-area placement */
+.area-c   { grid-area:c;   } .area-del{ grid-area:del; }
+.area-divi{ grid-area:divi;} .area-mul{ grid-area:mul; }
+.area-d7  { grid-area:d7;  } .area-d8 { grid-area:d8;  }
+.area-d9  { grid-area:d9;  } .area-sub{ grid-area:sub; }
+.area-d4  { grid-area:d4;  } .area-d5 { grid-area:d5;  }
+.area-d6  { grid-area:d6;  } .area-add{ grid-area:add; }
+.area-d1  { grid-area:d1;  } .area-d2 { grid-area:d2;  }
+.area-d3  { grid-area:d3;  } .area-eq { grid-area:eq;  }
+.area-d0  { grid-area:d0;  } .area-dot{ grid-area:dot; }
+
+/* Keyboard hint */
+.hint{
+  margin-top:15px;
+  text-align:center;
+  font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.4px;
+  color:var(--ink-soft);
+}
+.hint kbd{
+  background:#fff;
+  border:1px solid #FFC9DA;
+  border-bottom-width:2.5px;
+  border-radius:6px;
+  padding:1px 6px;
+  font-family:inherit;
+  font-weight:700;
+  color:var(--eq);
+  margin:0 1px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width:380px){
+  .calculator{ padding:16px 14px 14px; border-radius:28px; }
+  .keys{ gap:9px; }
+  .key{ border-radius:15px; }
+  .hint .desktop-only{ display:none; }
+}
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{ animation:none !important; transition:none !important; }
+}
